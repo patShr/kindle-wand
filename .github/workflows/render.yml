@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '5 * * * *' # stündlich; das Kindle holt sich das Bild nur 4× am Tag
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['src/**', 'package*.json', '.github/workflows/**']
 
 permissions:
   contents: read

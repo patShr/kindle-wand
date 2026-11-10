@@ -9,7 +9,7 @@ const esc = (s) =>
   String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
 const LOCALE = 'de-AT';
-const fmt = (opts) => new Intl.DateTimeFormat(LOCALE, opts);
+const fmt = (opts) => new Intl.DateTimeFormat(LOCALE, { timeZone: 'Europe/Vienna', ...opts });
 const fWeekday = fmt({ weekday: 'long' });
 const fWeekdayShort = fmt({ weekday: 'short' });
 const fDayMonth = fmt({ day: 'numeric', month: 'long' });

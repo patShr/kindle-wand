@@ -1,0 +1,11 @@
+node_modules/
+out/
+.env
+kindle/ssh/
+kindle/downloads/
+kindle/jb/
+kindle/usbnet/
+config.local.json
+kindle/dash/
+kindle/dl-dash/
+kindle/ping/

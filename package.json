@@ -1,0 +1,21 @@
+{
+  "name": "kindle-wand",
+  "version": "1.0.0",
+  "description": "Kindle-4-Wandanzeige: Kalender + lokale News",
+  "scripts": {
+    "render": "node src/render.js",
+    "news": "node src/news.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/fraunces": "^5.3.0",
+    "cheerio": "^1.2.0",
+    "node-ical": "^0.27.6",
+    "playwright": "^1.65.0",
+    "sharp": "^0.35.5"
+  }
+}

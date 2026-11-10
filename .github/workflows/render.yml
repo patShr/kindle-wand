@@ -1,0 +1,60 @@
+name: Dashboard rendern
+
+on:
+  schedule:
+    - cron: '5 * * * *' # stündlich; das Kindle holt sich das Bild nur 4× am Tag
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write # für den Keepalive unten
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Chromium installieren
+        run: npx playwright install --with-deps --only-shell chromium
+
+      - name: Rendern
+        env:
+          ICS_URL: ${{ secrets.ICS_URL }}
+          NEWS_ORTE: ${{ secrets.NEWS_ORTE }}
+          OUT_DIR: site/${{ secrets.DASH_PATH }}
+        run: |
+          test -n "$OUT_DIR" && test "$OUT_DIR" != "site/" || { echo "Secret DASH_PATH fehlt"; exit 1; }
+          node src/render.js
+          rm -f "$OUT_DIR/dashboard.html"
+          touch site/.nojekyll
+          echo '<!doctype html><title>.</title>' > site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+      # Geplante Workflows in öffentlichen Repos werden nach 60 Tagen ohne Aktivität pausiert.
+      - name: Keepalive
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/render.yml/enable" || true

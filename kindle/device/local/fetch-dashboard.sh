@@ -13,7 +13,7 @@ tmp="$1.tmp"
 "$DIR/../xh" -d -q --verify="$DIR/../ca-bundle.crt" --timeout 30 -o "$tmp" get "$BASE/dash-$step.png" || exit 1
 
 # Nur ein gültiges PNG übernehmen (sonst bleibt das alte Bild stehen)
-if [ "$(head -c 4 "$tmp" | tail -c 3)" = "PNG" ]; then
+if [ "$(dd if="$tmp" bs=1 skip=1 count=3 2>/dev/null)" = "PNG" ]; then
   mv "$tmp" "$1"
 else
   rm -f "$tmp"

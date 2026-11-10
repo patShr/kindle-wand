@@ -40,4 +40,7 @@ Eigene Dateien aus `kindle/device/` darüberkopieren, dazu:
 - `local/url.txt`: `https://<user>.github.io/<repo>/<DASH_PATH>`
 
 Start: `/mnt/us/dashboard/start.sh` (stoppt die Kindle-Oberfläche). Logs: `/mnt/us/dashboard/logs/dash.log`.
-Zurück zum normalen Kindle: `stop.sh` und neu starten.
+
+Zwischen den Updates schläft das Kindle (Suspend-to-RAM) und ist per SSH nicht erreichbar.
+**Zurück zum normalen Kindle:** Ein-Schalter ca. 20 s gedrückt halten → Neustart, die Anzeige startet nicht automatisch.
+**Wieder starten:** WLAN an, Suche `;debugOn` → `~usbNetwork`, dann per SSH `sh /mnt/us/dashboard/start.sh`.

@@ -33,7 +33,8 @@ async function toKindlePNG(shot, file) {
     .toFile(path.join(OUT, file));
 }
 
-const browser = await chromium.launch();
+// In der Cloud das vorinstallierte Google Chrome nehmen (PW_CHANNEL=chrome) – spart den fehleranfälligen Download.
+const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 await page.goto('file:///' + htmlPath.replace(/\\/g, '/'));
 await page.evaluate(() => document.fonts.ready);

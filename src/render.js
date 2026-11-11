@@ -1,7 +1,7 @@
 // Erzeugt die Bilder für das Kindle 4 (600×800, 8-bit Graustufen):
 //   <OUT_DIR>/dashboard.png      ohne Akkuanzeige (Vorschau)
 //   <OUT_DIR>/dash-<0..100>.png  je Akkustufe (10er-Schritte); das Kindle holt sich die passende Datei
-// Aufruf: node src/render.js   (ICS_URL, NEWS_ORTE, OUT_DIR optional als Umgebungsvariablen)
+// Aufruf: node src/render.js   (ICS_URL, OUT_DIR optional als Umgebungsvariablen)
 process.env.TZ = 'Europe/Vienna';
 
 import { mkdir, writeFile } from 'node:fs/promises';

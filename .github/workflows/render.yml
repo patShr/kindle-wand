@@ -48,7 +48,6 @@ jobs:
       - name: Rendern
         env:
           ICS_URL: ${{ secrets.ICS_URL }}
-          NEWS_ORTE: ${{ secrets.NEWS_ORTE }}
           OUT_DIR: site/${{ secrets.DASH_PATH }}
         run: |
           test -n "$OUT_DIR" && test "$OUT_DIR" != "site/" || { echo "Secret DASH_PATH fehlt"; exit 1; }

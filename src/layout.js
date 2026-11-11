@@ -73,9 +73,14 @@ function newsHTML(news, now) {
   return news
     .map(({ ort, items }) => {
       const i = items[0];
-      if (!i) return `<article class="news"><div class="nmeta"><span class="ort">${esc(ort)}</span></div><p class="nt quiet">Nix Neues. Wie immer.</p></article>`;
-      const age = i.date ? Math.round((now - i.date) / 86400000) : null;
-      const when = i.date ? (age <= 0 ? 'heute' : age === 1 ? 'gestern' : fDayMonthShort.format(i.date)) : '';
+      if (!i) return `<article class="news"><div class="nmeta"><span class="ort">${esc(ort)}</span></div><p class="nt quiet">Gerade nicht abrufbar.</p></article>`;
+      // Heute: Uhrzeit, gestern: "gestern", sonst Datum (Kalendertage in Wien)
+      const dayKey = (d) => fmt({ year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+      const yesterday = new Date(now - 86400000);
+      const when = !i.date ? ''
+        : dayKey(i.date) === dayKey(now) ? fTime.format(i.date)
+        : dayKey(i.date) === dayKey(yesterday) ? 'gestern'
+        : fDayMonthShort.format(i.date);
       return `<article class="news">
         <div class="nmeta"><span><span class="ort">${esc(ort)}</span>${i.kicker ? `<span class="nk"> · ${esc(i.kicker)}</span>` : ''}</span>${when ? `<span class="nwhen">${esc(when)}</span>` : ''}</div>
         <p class="nt">${esc(i.title)}</p>
@@ -169,7 +174,7 @@ export function buildHTML({ now, cal, news }) {
   <main class="cal" id="cal">${calendarHTML(cal)}</main>
 
   <section class="newsbox">
-    <h2>Aus der Heimat <small>MeinBezirk</small></h2>
+    <h2>Schlagzeilen <small>ORF</small></h2>
     ${newsHTML(news, now)}
   </section>
 

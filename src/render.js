@@ -16,7 +16,7 @@ const OUT = path.resolve(process.env.OUT_DIR || path.join(import.meta.dirname, '
 const W = 600, H = 800;
 
 const now = process.env.NOW ? new Date(process.env.NOW) : new Date();
-const [cal, news] = await Promise.all([loadCalendar({ now, days: 7 }), loadNews(1)]);
+const [cal, news] = await Promise.all([loadCalendar({ now, days: 21 }) /* mehr Tage als Platz – die Seite kürzt, was nicht passt */, loadNews(1)]);
 
 await mkdir(OUT, { recursive: true });
 const html = buildHTML({ now, cal, news });
